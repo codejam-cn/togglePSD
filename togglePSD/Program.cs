@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace togglePSD
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {         
-
-
             string curFolderPath = Directory.GetCurrentDirectory();
-
             string[] files = Directory.GetFiles(curFolderPath);
 
             for (int i = 0; i < files.Length; i++)
@@ -25,24 +18,18 @@ namespace togglePSD
                 if (extend == ".psd")
                 {
                     FileAttributes attributes = File.GetAttributes(path);
-
                     if ((attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
                     {
-                        // Show the file.
                         attributes = RemoveAttribute(attributes, FileAttributes.Hidden);
                         File.SetAttributes(path, attributes);
-//                        Console.WriteLine("The {0} file is no longer hidden.", path);
                     }
                     else
                     {
-                        // Hide the file.
                         File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden);
-//                        Console.WriteLine("The {0} file is now hidden.", path);
                     }
 
                 }
             }
-
             Console.ReadLine();
         }
 
@@ -74,6 +61,4 @@ namespace togglePSD
     [ComVisible(false)] IntegrityStream = 32768,
     [ComVisible(false)] NoScrubData = 131072,
   }
- 
- 
  */
