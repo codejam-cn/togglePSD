@@ -1,35 +1,51 @@
 ﻿using System;
 using System.IO;
+using Microsoft.Win32;
 
 namespace togglePSD
 {
     internal class Program
     {
+        private const string LogFilePath = @"E:\My\togglePSD\togglePSD\log.txt";
+
         private static void Main(string[] args)
-        {         
-            string curFolderPath = Directory.GetCurrentDirectory();
-            string[] files = Directory.GetFiles(curFolderPath);
+        {
+            Log.AddLog(LogFilePath, "service end" + DateTime.Now.ToString());
 
-            for (int i = 0; i < files.Length; i++)
-            {
-                string extend = Path.GetExtension(files[i]).ToLower();
-                string path = files[i];
+            //RegistryKey subKey = Registry.LocalMachine.OpenSubKey(@"HKEY_CLASSES_ROOT\Directory\Background\shell\TogglePSD");
 
-                if (extend == ".psd")
-                {
-                    FileAttributes attributes = File.GetAttributes(path);
-                    if ((attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
-                    {
-                        attributes = RemoveAttribute(attributes, FileAttributes.Hidden);
-                        File.SetAttributes(path, attributes);
-                    }
-                    else
-                    {
-                        File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden);
-                    }
 
-                }
-            }
+            //if (subKey != null)
+            //{
+            //    object value = subKey.GetValue("toggle");
+
+            //    Log.AddLog(LogFilePath, "service end" + value.ToString());
+            //}
+
+
+            //string curFolderPath = Directory.GetCurrentDirectory();
+            //string[] files = Directory.GetFiles(curFolderPath);
+
+            //for (int i = 0; i < files.Length; i++)
+            //{
+            //    string extend = Path.GetExtension(files[i]).ToLower();
+            //    string path = files[i];
+
+            //    if (extend == ".psd")
+            //    {
+            //        FileAttributes attributes = File.GetAttributes(path);
+            //        if ((attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+            //        {
+            //            attributes = RemoveAttribute(attributes, FileAttributes.Hidden);
+            //            File.SetAttributes(path, attributes);
+            //        }
+            //        else
+            //        {
+            //            File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden);
+            //        }
+
+            //    }
+            //}
             Console.ReadLine();
         }
 
