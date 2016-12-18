@@ -1,52 +1,59 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
-using Microsoft.Win32;
 
 namespace togglePSD
 {
     internal class Program
     {
-        private const string LogFilePath = @"E:\My\togglePSD\togglePSD\log.txt";
-
         private static void Main(string[] args)
         {
-            Log.AddLog(LogFilePath, "service end" + DateTime.Now.ToString());
-
             //RegistryKey subKey = Registry.LocalMachine.OpenSubKey(@"HKEY_CLASSES_ROOT\Directory\Background\shell\TogglePSD");
-
-
             //if (subKey != null)
             //{
             //    object value = subKey.GetValue("toggle");
-
             //    Log.AddLog(LogFilePath, "service end" + value.ToString());
             //}
+            string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "log.txt");
 
-
-            //string curFolderPath = Directory.GetCurrentDirectory();
-            //string[] files = Directory.GetFiles(curFolderPath);
-
-            //for (int i = 0; i < files.Length; i++)
-            //{
-            //    string extend = Path.GetExtension(files[i]).ToLower();
-            //    string path = files[i];
-
-            //    if (extend == ".psd")
-            //    {
-            //        FileAttributes attributes = File.GetAttributes(path);
-            //        if ((attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
-            //        {
-            //            attributes = RemoveAttribute(attributes, FileAttributes.Hidden);
-            //            File.SetAttributes(path, attributes);
-            //        }
-            //        else
-            //        {
-            //            File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden);
-            //        }
-
-            //    }
-            //}
-            Console.ReadLine();
+            try
+            {
+                var curFolderPath = args.Length > 0 ? args[0] : Directory.GetCurrentDirectory();
+                var files = Directory.GetFiles(curFolderPath);
+                if (files.Length > 0)
+                {
+                    foreach (string t in files)
+                    {
+                        var extension = Path.GetExtension(t);
+                        if (extension != null)
+                        {
+                            var extend = extension.ToLower();
+                            var path = t;
+                            if (extend == ".psd")
+                            {
+                                var attributes = File.GetAttributes(path);
+                                if ((attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+                                {
+                                    attributes = RemoveAttribute(attributes, FileAttributes.Hidden);
+                                    File.SetAttributes(path, attributes);
+                                }
+                                else
+                                {
+                                    File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden);
+                                }
+                            }
+                        }
+                    }
+                }
+               
+            }
+            catch (Exception e)
+            {
+                Debug.Assert(e.InnerException != null, "e.InnerException != null");
+                Log.AddLog(logFilePath,DateTime.Now.ToString(CultureInfo.CurrentCulture) + "\t" +  e.InnerException);
+                throw;
+            }
         }
 
         private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
@@ -55,7 +62,6 @@ namespace togglePSD
         }
     }
 }
-
 
 /*
    public enum FileAttributes

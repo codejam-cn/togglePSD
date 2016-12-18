@@ -4394,7 +4394,7 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S0">Value</col>
 		<col def="s72">Component_</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>Registry3</td><td>0</td><td>Directory\Background\shell\TogglePSD\command</td><td/><td>E:\My\togglePSD\togglePSD\bin\Debug\togglePSD.exe</td><td>ISX_DEFAULTCOMPONENT1</td><td>0</td></row>
+		<row><td>Registry3</td><td>0</td><td>Directory\Background\shell\TogglePSD\command</td><td/><td>E:\My\togglePSD\togglePSD\bin\Debug\togglePSD.exe "%v."</td><td>ISX_DEFAULTCOMPONENT1</td><td>0</td></row>
 	</table>
 
 	<table name="RemoveFile">
